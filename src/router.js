@@ -1,12 +1,17 @@
 import Vue from "vue";
 import Router from "vue-router";
-// import Nprogress from "nprogress";
-// import "nprogress/nprogress.css";
+import Nprogress from "nprogress";
+import "nprogress/nprogress.css";
 import NotFound from "./views/404";
 
 Vue.use(Router);
+/**
+ * 安装 npm i nprogress 库，主要优化用户体验
+ * 路由守卫: vue-router 提供在路由切换时的沟子，即切换触发事件
+ * 使用路由守卫，不能进行直接导出
+ */
 
-export default new Router({
+const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
@@ -123,3 +128,18 @@ export default new Router({
 });
 
 // 安装 npm i nprogress 库，主要优化用户体验
+/**
+ * to 将要到达的路由
+ * form 当前的路由
+ * next 继续下一步。必须调用才会执行下一步
+ */
+// 开始执行事件
+router.beforeEach((to, form, next) => {
+  Nprogress.start();
+  next();
+});
+// 执行完成结束事件
+router.afterEach(() => {
+  Nprogress.done();
+});
+export default router;
