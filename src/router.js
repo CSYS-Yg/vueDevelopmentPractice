@@ -135,7 +135,9 @@ const router = new Router({
  */
 // 开始执行事件
 router.beforeEach((to, form, next) => {
-  Nprogress.start();
+  if (to.path !== form.path) {
+    Nprogress.start();
+  }
   next();
 });
 // 执行完成结束事件
