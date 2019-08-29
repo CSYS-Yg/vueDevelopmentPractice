@@ -17,6 +17,8 @@ const router = new Router({
   routes: [
     {
       path: "/user",
+      // 标志位，是否显示在菜单上
+      hideInMenu: true,
       // // 必须需要挂载，否则下面路径无法访问
       // component: { render: h => h("router-view") },
       component: () =>
@@ -46,22 +48,24 @@ const router = new Router({
       component: () =>
         import(/* webpackChunkName: "layout" */ "./layouts/BasicLayout.vue"),
       children: [
-        // dashhoard 仪表盘
+        // dashboard 仪表盘
         {
           path: "/",
-          redirect: "/dashhoard/analysis"
+          redirect: "/dashboard/analysis"
         },
         {
-          path: "/dashhoard",
-          name: "dashhoard",
+          path: "/dashboard",
+          name: "dashboard",
+          meta: { icon: "dashboard", title: "仪表盘" },
           component: { render: h => h("router-view") },
           children: [
             {
-              path: "/dashhoard/analysis",
+              path: "/dashboard/analysis",
               name: "analysis",
+              meta: { title: "分析页" },
               component: () =>
                 import(
-                  /* webpackChunkName: "dashhoard" */ "./views/Dashhoard/Analysis.vue"
+                  /* webpackChunkName: "dashboard" */ "./views/Dashboard/Analysis.vue"
                 )
             }
           ]
@@ -71,10 +75,12 @@ const router = new Router({
           path: "/form",
           name: "form",
           component: { render: h => h("router-view") },
+          meta: { icon: "form", title: "表单" },
           children: [
             {
               path: "/form/basic-form",
               name: "basicform",
+              meta: { title: "基础表单" },
               component: () =>
                 import(
                   /* webpackChunkName: "form" */ "./views/Forms/BasicForm.vue"
@@ -83,6 +89,8 @@ const router = new Router({
             {
               path: "/form/step-form",
               name: "stepform",
+              hideChildrenInMenu: true,
+              meta: { title: "分布表单" },
               component: () =>
                 import(
                   /* webpackChunkName: "form" */ "./views/Forms/StepForm/index.vue"
@@ -122,6 +130,7 @@ const router = new Router({
     {
       path: "*",
       name: "404",
+      hideInMenu: true,
       component: NotFound
     }
   ]

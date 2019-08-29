@@ -8,9 +8,10 @@
         collapsedWidth="0px"
         collapsible
         v-model="collapsed"
+        width="256px"
       >
         <div class="logo">Yx</div>
-        <SiderMenu></SiderMenu>
+        <SiderMenu :theme="navTheme"></SiderMenu>
       </a-layout-sider>
       <a-layout>
         <a-layout-header style="background: #fff; padding: 0">
