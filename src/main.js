@@ -2,6 +2,8 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import Authorized from "./components/Authorized";
+import Auth from "./directives/auth";
 
 // // Ant 组件全部引入
 // import Antd from "ant-design-vue";
@@ -22,6 +24,9 @@ Vue.use(Icon);
 Vue.use(Drawer);
 Vue.use(Radio);
 Vue.use(Menu);
+
+Vue.component("Authorized", Authorized);
+Vue.use(Auth);
 
 Vue.config.productionTip = false;
 
