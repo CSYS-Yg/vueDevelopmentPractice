@@ -7,7 +7,6 @@
 <script>
 import random from "lodash/random";
 import Chart from "../../components/Charts.vue";
-import { clearInterval } from "timers";
 export default {
   data() {
     return {
@@ -35,6 +34,7 @@ export default {
   },
   mounted() {
     this.interval = setInterval(() => {
+      console.log("3000");
       this.chartOption.series[0].data = this.chartOption.series[0].data.map(
         () => random(100)
       );
