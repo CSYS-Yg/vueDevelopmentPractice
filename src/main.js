@@ -17,13 +17,24 @@ import Auth from "./directives/auth";
 // Vue.use(Button);
 
 // Ant 组件使用插件按需加载  // https://ant.design/docs/react/introduce-cn
-import { Button, Layout, Icon, Drawer, Radio, Menu } from "ant-design-vue";
+import {
+  Button,
+  Layout,
+  Icon,
+  Drawer,
+  Radio,
+  Menu,
+  Form,
+  Input
+} from "ant-design-vue";
 Vue.use(Button);
 Vue.use(Layout);
 Vue.use(Icon);
 Vue.use(Drawer);
 Vue.use(Radio);
 Vue.use(Menu);
+Vue.use(Form);
+Vue.use(Input);
 
 Vue.component("Authorized", Authorized);
 Vue.use(Auth);
