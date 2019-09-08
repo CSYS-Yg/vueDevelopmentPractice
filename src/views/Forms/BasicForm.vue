@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-form :layout="formLayout">
+    <a-form :layout="formLayout" :form="form">
       <a-form-item
         label="Form Layout"
         :label-col="formItemLayout.labelCol"
@@ -25,17 +25,37 @@
         label="Field A"
         :label-col="formItemLayout.labelCol"
         :wrapper-col="formItemLayout.wrapperCol"
-        :validateStatus="firldAStatus"
-        :help="fieldAHelp"
       >
-        <a-input v-model="FieldA" placeholder="input placeholder" />
+        <a-input
+          v-decorator="[
+            // 字段名称
+            'fieldA',
+            // 规则配置
+            {
+              // 初始值,只在初始化时生效一次
+              initialValue: fieldA,
+              // 规则
+              rules: [
+                {
+                  // 必填
+                  required: true,
+                  // 字符数
+                  min: 6,
+                  // 错误提示
+                  message: '字符数需大于5个'
+                }
+              ]
+            }
+          ]"
+          placeholder="input placeholder"
+        />
       </a-form-item>
       <a-form-item
         label="Field B"
         :label-col="formItemLayout.labelCol"
         :wrapper-col="formItemLayout.wrapperCol"
       >
-        <a-input v-model="FieldB" placeholder="input placeholder" />
+        <a-input v-decorator="['fieldB']" placeholder="input placeholder" />
       </a-form-item>
       <a-form-item :wrapper-col="buttonItemLayout.wrapperCol">
         <a-button @click="handleSubmit" type="primary">
@@ -49,24 +69,20 @@
 <script>
 export default {
   data() {
+    this.form = this.$form.createForm(this);
     return {
       formLayout: "horizontal",
-      FieldA: "",
-      FieldB: "",
-      firldAStatus: "",
-      fieldAHelp: ""
+      fieldA: "hello",
+      fieldB: ""
     };
   },
-  watch: {
-    FieldA(val) {
-      if (val.length <= 5) {
-        this.firldAStatus = "error";
-        this.fieldAHelp = "字符数需大于5个";
-      } else {
-        this.firldAStatus = "";
-        this.fieldAHelp = "";
-      }
-    }
+  mounted() {
+    setTimeout(() => {
+      // 动态改变初始值 fieldA
+      this.form.setFieldsValue({
+        fieldA: "hello world"
+      });
+    }, 3000);
   },
   computed: {
     formItemLayout() {
@@ -92,15 +108,16 @@ export default {
       this.formLayout = e.target.value;
     },
     handleSubmit() {
-      if (this.FieldA.length <= 5) {
-        this.firldAStatus = "error";
-        this.fieldAHelp = "字符数需大于5个";
-      } else {
-        console.log({
-          FieldA: this.FieldA,
-          FieldB: this.FieldB
-        });
-      }
+      /**
+       * err 错误信息
+       * values 收集到的值
+       */
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log(values);
+          Object.assign(this, values);
+        }
+      });
     }
   }
 };
